@@ -3,7 +3,10 @@
   "type": "ARM",
   "dependenceList": [],
   "srcDirs": [
-    ".eide/deps"
+    ".eide/deps",
+    "UserCode",
+    "CubeMX",
+    "System"
   ],
   "virtualFolder": {
     "name": "<virtual_root>",

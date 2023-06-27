@@ -21,11 +21,11 @@ version: '1.0'
 # for source files with filesystem paths
 #
 files:
-#   './test/**/*.c': --c99
+    # './test/**/*.c': --c99
+    './UserCode/**': -Wextra
 
 #
 # for source files with virtual paths
 #
 virtualPathFiles:
-#   'virtual_folder/**/*.c': --c99
-
+    # 'virtual_folder/**/*.c': --c99 
