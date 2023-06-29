@@ -8,9 +8,13 @@
 - "LIB_FLAGS": "-lm -lstdc++"
 - 添加了一些源文件夹
 
+## 获取模板
+
+克隆本仓库，用 EIDE 打开，在项目上右键-导出 EIDE 模板
+
 ## 模板使用方法
 
-1. EIDE 新建项目-本地项目模板，选择本目录下的 .ept 文件
+1. EIDE 新建项目-本地项目模板，选择 .ept 文件
 2. 使用 CubeMX 创建 STM32 工程，并注意以下设置：
     - Project Manager 标签下，`Toolchain/IDE` 选择 STM32CubeIDE 并勾选 `Generate Under Root`
     - Project Location 先随便选择一个路径（后续步骤会移动它）
