@@ -81,33 +81,33 @@
 - .eide: EIDE 相关的配置文件
   - debug.files.options.yml: 可以给不同的文件指定不同的编译选项
 
-### 一些可能用到的构建器选项
+## 一些可能用到的构建器选项
 
-#### 编译器选项
+### 编译器选项
 
-##### -Wextra
+#### -Wextra
 
 开启额外的 warning，这样会打印更多的 warning，更容易找到 bug
 
-##### 选项：One ELF Section per Function 和 One ELF Section per Data
+#### 选项：One ELF Section per Function 和 One ELF Section per Data
 
 勾上这两个选项分别等价于添加 `-ffunction-sections` 和 `-fdata-sections` 编译选项。
 
 `-ffunction-sections` 和 `-fdata-sections` 用于告诉编译器将每个函数和数据放在单独的段中，以便在链接时可以更好地优化代码大小。
 
-##### -fno-exceptions
+#### -fno-exceptions
 
 -fno-exceptions 是 GCC 编译器的一个选项，它表示禁用 C++ 异常机制。这个选项会让编译器生成更小、更快的代码，但是会使得程序无法使用 C++ 异常机制。如果你的程序中没有使用 C++ 异常机制，那么可以使用这个选项来优化你的程序。
 
-##### -pipe
+#### -pipe
 
 -pipe 选项告诉 GCC 使用管道而不是临时文件来在编译的各个阶段之间进行通信。这可以加快编译速度，特别是在 I/O 较慢的系统上。
 
-##### -fno-rtti
+#### -fno-rtti
 
 -fno-rtti 选项告诉 GCC 不要生成与运行时类型信息有关的代码。这可以减小程序的大小并提高编译速度，但是会使得程序无法使用 RTTI（Run-Time Type Identification）功能。
 
-##### --specs=nosys.specs
+#### --specs=nosys.specs
 
 用于告诉链接器不使用系统调用（system calls）
 
@@ -121,7 +121,7 @@
 
 当然，你也可以自己实现一些系统调用。例如，实现 `_write()` 和 `_read()` 将 `printf` 重定向到串口。链接器会优先链接你定义的这些函数。如果你将所有的系统调用都定义了，就可以不加 `--specs=nosys.specs`
 
-##### --specs=nano.specs
+#### --specs=nano.specs
 
 用于告诉编译器和链接器使用 Nano libc. Nano libc 是一个轻量级的 C 库，它的目标是减小可执行文件的大小。使用 Nano libc 可以减小可执行文件的大小，但是会牺牲一些功能。
 
@@ -131,9 +131,9 @@
 
 不添加这一条则会使用标准 C 库。标准 C 库默认支持 printf 和 scanf 浮点数，因此使用标准 C 库时不用添加 `-u _printf_float` 和 `-u _scanf_float`
 
-#### 链接器选项
+### 链接器选项
 
-##### 选项：Remove Unused Input Sections
+#### 选项：Remove Unused Input Sections
 
 勾上这个选项等价于添加 `-Wl,--gc-sections` 编译选项。
 
@@ -141,7 +141,7 @@
 
 因此，勾上这个选项以及编译器选项里的 `One ELF Section per Function` 和 `One ELF Section per Data`，可以实现删除未使用的函数和数据。
 
-#### 链接库
+### 链接库
 
 使用 `-lLibraryName` 链接名称为 `LibraryName` 的库。
 
