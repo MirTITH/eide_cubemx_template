@@ -5,7 +5,7 @@
     "global": {
         "$float-abi-type": "softfp",
         "output-debug-info": "enable",
-        "misc-control": "-pipe"
+        "misc-control": "-pipe --specs=nano.specs -fno-exceptions"
     },
     "c/cpp-compiler": {
         "language-c": "c11",
@@ -20,6 +20,7 @@
     "linker": {
         "output-format": "elf",
         "remove-unused-input-sections": true,
-        "LIB_FLAGS": "-lm -lstdc++"
+        "LIB_FLAGS": "-lm -lstdc++",
+        "LD_FLAGS": "-u _printf_float -u _scanf_float"
     }
 }
