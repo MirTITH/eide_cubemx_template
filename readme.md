@@ -35,24 +35,17 @@
         <listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
         ```
 
-    2. 将其填入 `.eide/eide.json` 的 `incList` 中，并修改为对应格式
-        > 修改说明：  
-        > 删去 `<listOptionValue builtIn="false" value=`  
-        > 将 `/>` 改为 `,`，并使最后一项末尾没有逗号  
-        > 将 `"../` 改为 `"CubeMX/`  
-        > 举例如下：
+    2. 将其填入 `.eide/eide.json` 的 `incList` 中，并修改为对应格式如下：
 
         ```json
-        ...
         "incList": [
-        ".eide/deps",
-        "CubeMX/Core/Inc",
-        "CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc",
-        "CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
-        "CubeMX/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
-        "CubeMX/Drivers/CMSIS/Include"
+            ".eide/deps",
+            "CubeMX/Core/Inc",
+            "CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc",
+            "CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+            "CubeMX/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+            "CubeMX/Drivers/CMSIS/Include"
         ],
-        ...
         ```
 
 6. 添加预处理宏定义
