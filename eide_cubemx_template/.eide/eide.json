@@ -6,7 +6,8 @@
     ".eide/deps",
     "UserCode",
     "CubeMX",
-    "System"
+    "System",
+    "ThirdParty"
   ],
   "virtualFolder": {
     "name": "<virtual_root>",

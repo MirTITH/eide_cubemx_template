@@ -2,11 +2,9 @@
 
 ## 模板做了些什么
 
-- 在 .eide/debug.files.options.yml 中给 `./UserCode/**` 添加 -Wextra 编译参数
-- c++ 标准选为 c++17
-- "CXX_FLAGS": "-fno-rtti"
-- "LIB_FLAGS": "-lm -lstdc++"
-- 添加了一些源文件夹
+- 给 `./UserCode/**` 添加 -Wextra 编译参数，见 [debug.files.options.yml](eide_cubemx_template/.eide/debug.files.options.yml)
+- 修改了编译器选项，见 [debug.arm.options.gcc.json](eide_cubemx_template/.eide/debug.arm.options.gcc.json)
+- 添加了一些源文件夹，见[eide.json](eide_cubemx_template/.eide/eide.json)
 
 ## 获取模板
 
@@ -17,12 +15,14 @@
 1. EIDE 新建项目-本地项目模板，选择 .ept 文件
 2. 使用 CubeMX 创建 STM32 工程，并注意以下设置：
     - Project Manager 标签下，`Toolchain/IDE` 选择 STM32CubeIDE 并勾选 `Generate Under Root`
-    - Project Location 先随便选择一个路径（后续步骤会移动它）
-    - 在 Code Generator 页面下，选上 `Copy only the necessary library files` 和 `Generate peripheral initialization as a pair of '.c/.h' files per pperipheral`
+    - Project Location 先随便选择一个路径（后续步骤会移动这个路径）
+    - 在 Code Generator 页面下，选上以下选项：
+        - `Copy only the necessary library files`
+        - `Generate peripheral initialization as a pair of '.c/.h' files per pperipheral`
 3. 在 CubeMX 中生成代码，生成完后打开生成目录，然后关闭 CubeMX
-4. 将刚才生成的所有文件移动到 EIDE 工程的 `CubeMX` 文件夹下
-    > 注意不要将 .ioc 文件所在的父文件夹也移动过来，  
-    > 移动完后 CubeMX 文件夹下应该有 `Core`、`Driver`、`.cproject` 等文件或文件夹
+4. 将 Project Location 下的所有文件和文件夹移动到 EIDE 工程的 `CubeMX` 下
+    > 注意不要将 Project Location 文件夹本身移动过来  
+    > 移动完后 CubeMX 文件夹下应该有 `Core`, `Driver`, `.cproject`, `xxx.ioc` 等文件或文件夹
 
 5. 添加包含目录
     1. 在 `CubeMX/.cproject` 中搜索 `Include`，找到如下这段:
@@ -62,7 +62,7 @@
 
 7. 在构建配置中：  
     - 选择合适的 CPU 类型、链接脚本、硬件浮点选项（如果有）  
-    - 如果有硬件浮点，则把构建器选项里的硬件浮点ABI选为 hard
+    - 如果所使用的 MCU 有硬件浮点，则把构建器选项里的硬件浮点ABI选为 hard
 
 8. 编译，应该能编译通过了
 9. 配置烧录器
@@ -77,6 +77,7 @@
 - UserCode: 用于存放用户代码文件
 - .eide: EIDE 相关的配置文件
   - debug.files.options.yml: 可以给不同的文件指定不同的编译选项
+- ThirdParty: 用于存放第三方代码
 
 ## 一些可能用到的构建器选项
 
@@ -114,9 +115,11 @@
 
 > （注）CubeMX 生成的代码里可能包括 syscalls.c 文件（取决于Toolchain/IDE配置），这里面就定义了所需 system calls. 所以如果有这个文件，也可以不添加这个编译选项
 
-链接器自己定义的这些函数不实现任何功能，只是用于去除链接错误的。（所以如果你此时调用`printf`，并不会有任何东西打印出来）
+链接器自己定义的这些函数是空函数，不实现任何功能，只是用于去除链接错误的。
 
-当然，你也可以自己实现一些系统调用。例如，实现 `_write()` 和 `_read()` 将 `printf` 重定向到串口。链接器会优先链接你定义的这些函数。如果你将所有的系统调用都定义了，就可以不加 `--specs=nosys.specs`
+（如果你此时使用`printf`打印内容，由于`printf`最终会调用`_write()`，而`_write()`是空函数，所以并不会有任何东西打印出来）
+
+当然，你也可以自己实现一些系统调用。例如，实现一个将信息输出到串口的 `_write()`，从而使得 `printf` 能够打印到串口。链接器会优先链接你定义的这些函数。如果你将所有的系统调用都定义了，就可以不加 `--specs=nosys.specs`
 
 #### --specs=nano.specs
 
