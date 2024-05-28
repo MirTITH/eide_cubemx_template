@@ -4,8 +4,7 @@
     "afterBuildTasks": [],
     "global": {
         "$float-abi-type": "softfp",
-        "output-debug-info": "enable",
-        "misc-control": "-pipe -fno-exceptions --specs=nano.specs -u _printf_float -u _scanf_float"
+        "output-debug-info": "enable"
     },
     "c/cpp-compiler": {
         "language-c": "c11",
@@ -14,13 +13,13 @@
         "warnings": "all-warnings",
         "one-elf-section-per-function": true,
         "one-elf-section-per-data": true,
-        "CXX_FLAGS": "-fno-rtti -Wno-psabi"
+        "CXX_FLAGS": "-Wno-psabi"
     },
     "asm-compiler": {},
     "linker": {
         "output-format": "elf",
         "remove-unused-input-sections": true,
         "LIB_FLAGS": "-lm -lstdc++",
-        "LD_FLAGS": ""
+        "$toolName": "auto"
     }
 }

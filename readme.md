@@ -2,7 +2,7 @@
 
 ## 模板做了些什么
 
-- 给 `./UserCode/**` 添加 -Wextra 编译参数，见 [debug.files.options.yml](eide_cubemx_template/.eide/debug.files.options.yml)
+- 给 `./src/**` 添加 -Wextra 编译参数，见 [debug.files.options.yml](eide_cubemx_template/.eide/debug.files.options.yml)
 - 修改了编译器选项，见 [debug.arm.options.gcc.json](eide_cubemx_template/.eide/debug.arm.options.gcc.json)
 - 添加了一些源文件夹，见[eide.json](eide_cubemx_template/.eide/eide.json)
 
@@ -20,12 +20,12 @@
         - `Copy only the necessary library files`
         - `Generate peripheral initialization as a pair of '.c/.h' files per pperipheral`
 3. 在 CubeMX 中生成代码，生成完后打开生成目录，然后关闭 CubeMX
-4. 将 Project Location 下的所有文件和文件夹移动到 EIDE 工程的 `CubeMX` 下
+4. 将 Project Location 下的所有文件和文件夹移动到 EIDE 工程的 `cubemx` 下
     > 注意不要将 Project Location 文件夹本身移动过来  
-    > 移动完后 CubeMX 文件夹下应该有 `Core`, `Driver`, `.cproject`, `xxx.ioc` 等文件或文件夹
+    > 移动完后 cubemx 文件夹下应该有 `Core`, `Driver`, `.cproject`, `xxx.ioc` 等文件或文件夹
 
 5. 添加包含目录
-    1. 在 `CubeMX/.cproject` 中搜索 `Include`，找到如下这段:
+    1. 在 `cubemx/.cproject` 中搜索 `Include`，找到如下这段:
 
         ```xml
         <listOptionValue builtIn="false" value="../Core/Inc"/>
@@ -40,16 +40,16 @@
         ```json
         "incList": [
             ".eide/deps",
-            "CubeMX/Core/Inc",
-            "CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc",
-            "CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
-            "CubeMX/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
-            "CubeMX/Drivers/CMSIS/Include"
+            "cubemx/Core/Inc",
+            "cubemx/Drivers/STM32F4xx_HAL_Driver/Inc",
+            "cubemx/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+            "cubemx/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+            "cubemx/Drivers/CMSIS/Include"
         ],
         ```
 
 6. 添加预处理宏定义
-    1. 在刚才的 `CubeMX/.cproject` 中搜索 `USE_HAL_DRIVER`，找到如下这段:
+    1. 在刚才的 `cubemx/.cproject` 中搜索 `USE_HAL_DRIVER`，找到如下这段:
 
         ```xml
         <listOptionValue builtIn="false" value="DEBUG"/>
@@ -58,8 +58,9 @@
         ```
 
     2. 在 EIDE 项目的项目属性-预处理宏定义中添加这几个宏，其中 `DEBUG` 可以不添加
+        
         > 添加宏的输入框可以用分号分隔，如输入`USE_HAL_DRIVER;STM32F407xx`
-
+    
 7. 在构建配置中：  
     - 选择合适的 CPU 类型、链接脚本、硬件浮点选项（如果有）  
     - 如果所使用的 MCU 有硬件浮点，则把构建器选项里的硬件浮点ABI选为 hard
@@ -71,13 +72,13 @@
 
 ### 目录结构
 
-- CubeMX: 用于存放 CubeMX 的 ioc 文件和 CubeMX 生成的所有文件
-- Docs: 存放一些文档
-- System: 如果你修改了 startup 文件、ld 文件，并且有自己写的系统初始化代码，请把这些文件放在这个文件夹
-- UserCode: 用于存放用户代码文件
+- cubemx: 用于存放 CubeMX 的 ioc 文件和 CubeMX 生成的所有文件
+- docs: 存放一些文档
+- linker_script: 如果你修改了 ld 文件，请把修改后的文件放在这里
+- src: 用于存放用户源代码
 - .eide: EIDE 相关的配置文件
   - debug.files.options.yml: 可以给不同的文件指定不同的编译选项
-- ThirdParty: 用于存放第三方代码
+- third_party: 用于存放第三方代码
 
 ## 一些可能用到的构建器选项
 
