@@ -92,7 +92,7 @@ Include Path 只添加 src 目录
 
 如果 include 的文件是自己包里的文件，使用 `#include "a.hpp"` ，优先从相对路径中查找文件
 
-如果 include 的文件是其他包中的文件，使用 `#include <b.hpp>`，从 Include Path 中查找文件
+如果 include 的文件是其他包中的文件，使用 `#include <package/b.hpp>`，从 Include Path 中查找文件
 
 ```cpp
 // src/device/led.hpp
