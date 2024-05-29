@@ -1,16 +1,17 @@
-#include "user_main.h"
-#include "main.h"
-#include "FreeRTOS.h"
-#include "task.h"
+#include <user_main.h>
+#include <main.h>
 
-void StartDefaultTask(void const *argument)
-{
-    (void)argument;
+// #include <FreeRTOS.h>
+// #include <task.h>
 
-    while (true) {
-        HAL_GPIO_TogglePin(Led_GPIO_Port, Led_Pin);
-        vTaskDelay(200);
-    }
+// void StartDefaultTask(void const *argument)
+// {
+//     (void)argument;
 
-    vTaskDelete(nullptr); // 删除当前线程
-}
+//     while (true) {
+//         HAL_GPIO_TogglePin(Led_GPIO_Port, Led_Pin);
+//         vTaskDelay(500);
+//     }
+
+//     vTaskDelete(nullptr); // 删除当前线程
+// }

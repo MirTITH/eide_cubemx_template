@@ -3,11 +3,8 @@
   "type": "ARM",
   "dependenceList": [],
   "srcDirs": [
-    ".eide/deps",
-    "UserCode",
-    "CubeMX",
-    "System",
-    "ThirdParty"
+    "src",
+    "third_party"
   ],
   "virtualFolder": {
     "name": "<virtual_root>",
@@ -25,8 +22,8 @@
       "excludeList": [],
       "toolchain": "GCC",
       "compileConfig": {
-        "cpuType": "Cortex-M3",
-        "floatingPointHardware": "none",
+        "cpuType": "Cortex-M4",
+        "floatingPointHardware": "single",
         "scatterFilePath": "<YOUR_LINKER_SCRIPT>.lds",
         "useCustomScatterFile": true,
         "storageLayout": {
@@ -35,27 +32,41 @@
         },
         "options": "null"
       },
-      "uploader": "JLink",
+      "uploader": "STLink",
       "uploadConfig": {
         "bin": "",
-        "baseAddr": "",
-        "cpuInfo": {
-          "vendor": "null",
-          "cpuName": "null"
-        },
-        "proType": 1,
-        "speed": 8000,
+        "proType": "SWD",
+        "resetMode": "default",
+        "runAfterProgram": true,
+        "speed": 4000,
+        "address": "0x08000000",
+        "elFile": "None",
+        "optionBytes": ".eide/debug.st.option.bytes.ini",
         "otherCmds": ""
       },
-      "uploadConfigMap": {},
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "null",
+            "cpuName": "null"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
       "custom_dep": {
         "name": "default",
         "incList": [
-          ".eide/deps"
+          "src"
         ],
         "libList": [],
         "sourceDirList": [],
-        "defineList": []
+        "defineList": [
+          "USE_HAL_DRIVER"
+        ]
       }
     }
   },

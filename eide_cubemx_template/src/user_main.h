@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-void StartDefaultTask(void const *argument);
+// void StartDefaultTask(void const *argument);
 
 #ifdef __cplusplus
 }

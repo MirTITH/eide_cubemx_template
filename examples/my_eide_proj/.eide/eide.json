@@ -1,0 +1,87 @@
+{
+  "name": "my_eide_proj",
+  "type": "ARM",
+  "dependenceList": [],
+  "srcDirs": [
+    ".eide/deps",
+    "src",
+    "third_party",
+    "my_eide_proj"
+  ],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": []
+  },
+  "outDir": "build",
+  "deviceName": null,
+  "packDir": null,
+  "miscInfo": {
+    "uid": "531451f0d838fa03c000af282f45ca5e"
+  },
+  "targets": {
+    "Debug": {
+      "excludeList": [],
+      "toolchain": "GCC",
+      "compileConfig": {
+        "cpuType": "Cortex-M7",
+        "floatingPointHardware": "double",
+        "scatterFilePath": "my_eide_proj/STM32H743IITX_FLASH.ld",
+        "useCustomScatterFile": true,
+        "storageLayout": {
+          "RAM": [],
+          "ROM": []
+        },
+        "options": "null"
+      },
+      "uploader": "STLink",
+      "uploadConfig": {
+        "bin": "",
+        "proType": "SWD",
+        "resetMode": "default",
+        "runAfterProgram": true,
+        "speed": 4000,
+        "address": "0x08000000",
+        "elFile": "None",
+        "optionBytes": ".eide/debug.st.option.bytes.ini",
+        "otherCmds": ""
+      },
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "null",
+            "cpuName": "null"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          "src",
+          "my_eide_proj/Core/Inc",
+          "my_eide_proj/Drivers/STM32H7xx_HAL_Driver/Inc",
+          "my_eide_proj/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy",
+          "my_eide_proj/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+          "my_eide_proj/Drivers/CMSIS/Include",
+          "my_eide_proj/Middlewares/Third_Party/FreeRTOS/Source/include",
+          "my_eide_proj/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
+          "my_eide_proj/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+          "my_eide_proj/Core/ThreadSafe"
+        ],
+        "libList": [],
+        "sourceDirList": [],
+        "defineList": [
+          "USE_HAL_DRIVER",
+          "STM32H743xx",
+          "STM32_THREAD_SAFE_STRATEGY=4"
+        ]
+      }
+    }
+  },
+  "version": "3.3"
+}

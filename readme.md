@@ -1,78 +1,170 @@
 # Template of STM32 CubeMX project for EIDE
 
+使用本模板前，请先安装 VSCode 及所需插件，见 [how_to_setup_eide_environment.md](how_to_setup_eide_environment.md)
+
 ## 模板做了些什么
 
-- 给 `./src/**` 添加 -Wextra 编译参数，见 [debug.files.options.yml](eide_cubemx_template/.eide/debug.files.options.yml)
+- 添加了一些目录结构，各目录的作用请参阅其下的 readme.md 文件
+- 给 `./src/**` 添加 -Wextra 编译参数，见 [debug.files.options.yml](eide_cubemx_template/.eide/debug.files.options.yml)（如果要修改，建议在 EIDE 中右键文件夹，选择 Modify Extra Complier Options）
 - 修改了编译器选项，见 [debug.arm.options.gcc.json](eide_cubemx_template/.eide/debug.arm.options.gcc.json)
-- 添加了一些源文件夹，见[eide.json](eide_cubemx_template/.eide/eide.json)
+- 给 EIDE 添加了一些源文件夹和包含目录，见[eide.json](eide_cubemx_template/.eide/eide.json)
 
-## 获取模板
+## 导出模板
 
-克隆本仓库，用 EIDE 打开，在项目上右键-导出 EIDE 模板
+要使用本模板，推荐先导出成 ept 文件
 
-## 模板使用方法
+步骤：
 
-1. EIDE 新建项目-本地项目模板，选择 .ept 文件
-2. 使用 CubeMX 创建 STM32 工程，并注意以下设置：
-    - Project Manager 标签下，`Toolchain/IDE` 选择 STM32CubeIDE 并勾选 `Generate Under Root`
-    - Project Location 先随便选择一个路径（后续步骤会移动这个路径）
-    - 在 Code Generator 页面下，选上以下选项：
-        - `Copy only the necessary library files`
-        - `Generate peripheral initialization as a pair of '.c/.h' files per pperipheral`
-3. 在 CubeMX 中生成代码，生成完后打开生成目录，然后关闭 CubeMX
-4. 将 Project Location 下的所有文件和文件夹移动到 EIDE 工程的 `cubemx` 下
-    > 注意不要将 Project Location 文件夹本身移动过来  
-    > 移动完后 cubemx 文件夹下应该有 `Core`, `Driver`, `.cproject`, `xxx.ioc` 等文件或文件夹
+1. 克隆或下载本仓库
 
-5. 添加包含目录
-    1. 在 `cubemx/.cproject` 中搜索 `Include`，找到如下这段:
+2. 用 VSCode 打开工作区：eide_cubemx_template/eide_cubemx_template.code-workspace
 
-        ```xml
-        <listOptionValue builtIn="false" value="../Core/Inc"/>
-        <listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>
-        <listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
-        <listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
-        <listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
-        ```
+    方法一：在 Windows 资源管理器中直接双击 .code-workspace 文件
 
-    2. 将其填入 `.eide/eide.json` 的 `incList` 中，并修改为对应格式如下：
+    方法二：在 VSCode 中以文本文件形式打开 .code-workspace，然后点击右下角的 “打开工作区”
 
-        ```json
-        "incList": [
-            ".eide/deps",
-            "cubemx/Core/Inc",
-            "cubemx/Drivers/STM32F4xx_HAL_Driver/Inc",
-            "cubemx/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
-            "cubemx/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
-            "cubemx/Drivers/CMSIS/Include"
-        ],
-        ```
+3. 导出模板：
 
-6. 添加预处理宏定义
-    1. 在刚才的 `cubemx/.cproject` 中搜索 `USE_HAL_DRIVER`，找到如下这段:
+    1. 点击 EIDE 选项卡
+    2. 右键点击工程
+    3. 选择 Export As... -> Eide Project Template（见下图）
 
-        ```xml
-        <listOptionValue builtIn="false" value="DEBUG"/>
-        <listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
-        <listOptionValue builtIn="false" value="STM32F407xx"/>
-        ```
+![image-20240529151842980](readme.assets/image-20240529151842980.png)
 
-    2. 在 EIDE 项目的项目属性-预处理宏定义中添加这几个宏，其中 `DEBUG` 可以不添加
-        
-        > 添加宏的输入框可以用分号分隔，如输入`USE_HAL_DRIVER;STM32F407xx`
+然后会在 EIDE 工作区根目录生成一个 .ept 文件，这个文件就是本地模板文件
+
+## 使用导出的模板
+
+#### 1. 创建 EIDE 工程
+
+1. 打开 VSCode，在 EIDE 选项卡中点击 New Project
+2. 选择“本地项目模板“，然后打开上一节导出的本地模板文件
+3. 为你的项目起一个名字，例如 my_eide_proj（记项目生成在 `xxx/my_eide_proj` 文件夹中）
+4. 打开新创建的 EIDE 工作区（右下角会有提示，或者也可以手动打开 my_eide_proj.code-workspace）
+
+#### 2. 使用 CubeMX 创建 STM32 工程
+
+正常创建即可，但在 Project Manager 标签下，要选择以下设置：
+
+- 工程名取一个你喜欢的，例如 my_eide_proj（也可以不与 EIDE 工程名相同）
+- Toolchain/IDE 选择 STM32CubeIDE 并勾选 Generate Under Root
+- Project Location 设为 `xxx/my_eide_proj/cubemx`（xxx/my_eide_proj 为 EIDE 项目文件夹）
+- 在 Code Generator 页面下，选上以下选项：
+    - Copy only the necessary library files
+    - Generate peripheral initialization as a pair of '.c/.h' files per pperipheral
+
+#### 3. 回到 EIDE 工作区，添加 CubeMX 生成的文件
+
+**添加源文件：**
+
+在 ` EIDE 选项卡 -> 项目资源` 点击“文件夹加号“图标（见下图），添加普通文件夹，选择刚才 CubeMX 生成的文件夹（例如 my_eide_proj）
+
+![image-20240529154849097](readme.assets/image-20240529154849097.png)
+
+**添加包含目录**：
+
+1. 在 `my_eide_proj/.cproject` 中找到如下这段：
+
+    > 在 VSCode 中，可以使用 `Ctrl + P` 搜索文件
+    >
+    > 在 .cproject 文件中搜索 Include，然后找最后一项可以快速找到
     
-7. 在构建配置中：  
-    - 选择合适的 CPU 类型、链接脚本、硬件浮点选项（如果有）  
-    - 如果所使用的 MCU 有硬件浮点，则把构建器选项里的硬件浮点ABI选为 hard
+    ```xml
+    <listOptionValue builtIn="false" value="../Core/Inc"/>
+    <listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>
+    <listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
+    <listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
+    <listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
+    ```
+    
+2. 将其填入 `.eide/eide.json` 的 `incList` 中，并修改为对应格式如下：
 
-8. 编译，应该能编译通过了
-9. 配置烧录器
+    > 注意下面的 incList 还额外添加了 src 文件夹
+    >
+    > 使用 VSCode 列编辑的方法可以快速完成操作
+
+    ```json
+    "incList": [
+        "src",
+        "my_eide_proj/Core/Inc",
+        "my_eide_proj/Drivers/STM32F4xx_HAL_Driver/Inc",
+        "my_eide_proj/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+        "my_eide_proj/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+        "my_eide_proj/Drivers/CMSIS/Include"
+    ],
+    ```
+
+**添加预处理宏定义**
+
+1. 在刚才的 `cubemx/.cproject` 中搜索 `USE_HAL_DRIVER`，找到如下这段:
+
+    ```xml
+    <listOptionValue builtIn="false" value="DEBUG"/>
+    <listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
+    <listOptionValue builtIn="false" value="STM32F407xx"/>
+    ```
+
+2. 在 `EIDE 选项卡 -> 项目属性 -> 预处理宏定义` 中添加这几个宏
+   
+    > 模板已经添加了 USE_HAL_DRIVER
+    >
+    > DEBUG 可以不添加
+    >
+    > 要添加多个宏，可以用分号分隔，如 `USE_HAL_DRIVER;STM32F407xx`
+
+**修改构建配置** 
+
+1. 选择合适的 CPU 类型、链接脚本、硬件浮点选项
+
+    - CPU 类型可以在 CubeMX 中查到（见下图）
+
+    - 链接脚本为 .ld 文件，请找到类似于  `my_eide_proj/STM32xxx_FLASH.ld` 的文件，并填入相对路径
+
+        不要选 `STM32xxx_RAM.ld` 的文件，除非你知道自己在干什么
+
+    - 硬件浮点选项只在部分 CPU 类型中存在，如果有的话建议开启，可以提高浮点运算速度
+
+        > single 类型的硬件浮点可以提高 float 计算速度，double 类型的可以提高 float 和 double 计算速度
+
+    ![image-20240529162720008](readme.assets/image-20240529162720008.png)
+
+**修改构建器选项** 
+
+这里可以调整优化等级和一些编译选项，以下是常用优化等级：
+
+- O0：最方便调试，但程序运行缓慢
+
+- Og：在尽量保证调试体验的情况下优化运行效率。此时可能有一些变量被优化掉而无法在调试时查看，也会有一些函数被优化导致断点打不进去或单步调试时跳行
+
+- O3：最大化运行效率，但调试体验非常差
+
+通常在低优化等级下调试，调试完后再把优化等级开高
+
+如果发现在低优化等级下程序运行正常，在高优化等级下运行异常，则原因可能有：
+
+- 内存溢出，数组越界
+- 爆栈了
+- 存在线程安全、数据竞争等问题
+- 编译器 bug
+
+### 测试编译
+
+点击 VSCode 右上角的 Build 按钮（如下图），编译
+
+![image-20240529164117222](readme.assets/image-20240529164117222.png)
+
+### 配置烧录器
+
+按照你的情况配置烧录器。其中 OpenOCD 和 pyOCD 支持多种常见烧录器，JLink 和 STLink 只支持自家烧录器。
+
+> OpenOCD 的版本不能太低，建议直接安装最新版。本模板测试时使用的是 0.12.0 版本
+
+点击 Program Flash 按钮烧录（在 Build 按钮右边第二个）
 
 ## 工程说明
 
 ### 目录结构
 
-- cubemx: 用于存放 CubeMX 的 ioc 文件和 CubeMX 生成的所有文件
 - docs: 存放一些文档
 - linker_script: 如果你修改了 ld 文件，请把修改后的文件放在这里
 - src: 用于存放用户源代码
@@ -124,13 +216,15 @@
 
 #### --specs=nano.specs
 
-用于告诉编译器和链接器使用 Nano libc. Nano libc 是一个轻量级的 C 库，它的目标是减小可执行文件的大小。使用 Nano libc 可以减小可执行文件的大小，但是会牺牲一些功能。
+用于告诉编译器和链接器使用 Nano libc
 
-注意：如果要使用 Nano libc, 请在编译器选项中添加这个选项，不要在链接器选项中添加。在编译器选项中加会同时作用于编译器和链接器，而在链接器选项中加只会作用于链接器，从而导致一些问题，详情见：[issue](https://github.com/github0null/eide/issues/259)。
+Nano libc 是一个轻量级的 C 库，它的目标是减小可执行文件的大小。使用 Nano libc 可以减小可执行文件的大小，但是会牺牲一些功能。
 
-默认 Nano libc 关闭了 printf 和 scanf 浮点数的功能。如果要使用该功能，需要在链接器选项中添加 `-u _printf_float` 和 `-u _scanf_float`
+**注意：**如果要使用 Nano libc, 请在编译器选项中添加这个选项，不要在链接器选项中添加。在编译器选项中加会同时作用于编译器和链接器，而在链接器选项中加只会作用于链接器，从而导致一些问题，详情见：[issue](https://github.com/github0null/eide/issues/259)。
 
-不添加这一条则会使用标准 C 库。标准 C 库默认支持 printf 和 scanf 浮点数，因此使用标准 C 库时不用添加 `-u _printf_float` 和 `-u _scanf_float`
+Nano libc 默认关闭了 printf 和 scanf 浮点数的功能。如果要使用该功能，需要在链接器选项中添加 `-u _printf_float` 和 `-u _scanf_float`
+
+不添加 `--specs=nano.specs` 则会使用标准 C 库。标准 C 库默认支持 printf 和 scanf 浮点数，因此使用标准 C 库时不用添加 `-u _printf_float` 和 `-u _scanf_float`
 
 ### 链接器选项
 
@@ -148,10 +242,10 @@
 
 以下为常用链接库选项：
 
-- `-lm`：数学库，提供了 math.h 中的各种数学函数。（有时候编译器会默认帮你链接这个库）
-- `-lstdc++`: 标准 C++ 库，提供了许多 C++ 中的函数。
+- `-lm`：数学库，提供了 math.h 中的各种数学函数。（有时候编译器会自动帮你链接这个库）
+- `-lstdc++`: C++ 标准库
 
-> 编译时使用 `gcc` 会默认链接 C 库，不会链接 C++ 库；  
-> 编译时使用 `g++` 会默认链接 C++ 库；  
+> 编译时使用 `gcc` 会自动链接 C 库，但不会自动链接 C++ 库；  
+> 编译时使用 `g++` 会自动链接 C++ 库；  
 > 所以通常情况下使用 `gcc` 编译 .c 文件，使用 `g++` 编译 .cpp 文件  
-> 但 EIDE 编译 .cpp 文件时也使用 `gcc` 命令，所以必须指定要链接 C++ 库
+> 但 EIDE 编译 .cpp 文件时也使用 `gcc` 命令，所以必须手动指定要链接 C++ 库
